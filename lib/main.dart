@@ -17,12 +17,15 @@ class ExpensesApp extends StatelessWidget {
         accentColor: Colors.amber,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'OpenSans',
-                fontSize: 18,
-                fontWeight: FontWeight.normal,
-              ),
+            headline6: TextStyle(
+              fontFamily: 'OpenSans',
+              fontSize: 18,
+              fontWeight: FontWeight.normal,
             ),
+            button: TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            )),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
@@ -51,28 +54,70 @@ class _MyHomePageState extends State<MyHomePage> {
       date: DateTime.now().subtract(Duration(days: 33)),
     ),
     Transaction(
-      id: 't1',
-      title: 'Novo Tênis de Corrida',
-      value: 310.00,
-      date: DateTime.now().subtract(Duration(days: 3)),
-    ),
-    Transaction(
       id: 't2',
-      title: 'Conta #01',
-      value: 210.00,
-      date: DateTime.now().subtract(Duration(days: 4)),
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
     ),
     Transaction(
       id: 't3',
-      title: 'Cartão de Crédito',
-      value: 100211.00,
-      date: DateTime.now().subtract(Duration(days: 4)),
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
     ),
     Transaction(
       id: 't4',
-      title: 'Lanche',
-      value: 15.00,
-      date: DateTime.now().subtract(Duration(days: 4)),
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
+    ),
+    Transaction(
+      id: 't4',
+      title: 'Monitor 21',
+      value: 900.00,
+      date: DateTime.now().subtract(Duration(days: 33)),
     ),
   ];
 
@@ -84,12 +129,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  _addTransaction(String title, double value) {
+  _addTransaction(String title, double value, DateTime date) {
     final newTransaction = Transaction(
       id: Random().nextDouble().toString(),
       title: title,
       value: value,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
@@ -97,6 +142,14 @@ class _MyHomePageState extends State<MyHomePage> {
     });
     // fecha o modal
     Navigator.of(context).pop(); // tira o widget da pilha
+  }
+
+  _removeTransaction(String id) {
+    setState(() {
+      _transactions.removeWhere((tr) {
+        return tr.id == id;
+      });
+    });
   }
 
   _openTransactionFormModal(BuildContext context) {
@@ -127,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(_recentTransactions),
-            TransactionList(_transactions),
+            TransactionList(_transactions, _removeTransaction),
           ],
         ),
       ),
