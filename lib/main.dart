@@ -6,6 +6,7 @@ import 'package:expenses/components/transaction_list.dart';
 import 'package:expenses/models/transaction.dart';
 import 'package:flutter/material.dart';
 
+//  flutter clean, fazer flutter pub get
 main() => runApp(ExpensesApp());
 
 class ExpensesApp extends StatelessWidget {
@@ -102,20 +103,24 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
+
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     final appBar = AppBar(
       title: Text(
         'Despesas Pessoais',
       ),
       actions: <Widget>[
-        IconButton(
-          onPressed: () {
-            setState(() {
-              _showChart = !_showChart;
-            });
-          },
-          icon: Icon(_showChart ? Icons.list : Icons.show_chart),
-        ),
+        if (isLandscape)
+          IconButton(
+            onPressed: () {
+              setState(() {
+                print(_showChart);
+                _showChart = !_showChart;
+              });
+            },
+            icon: Icon(_showChart ? Icons.list : Icons.show_chart),
+          ),
         IconButton(
           onPressed: () => _openTransactionFormModal(context),
           icon: Icon(Icons.add),
@@ -133,26 +138,11 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            if (isLandscape)
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              //     Text('Exibir Gráfico'),
-              //     Switch.adaptive(
-              //       value: _showChart,
-              //       onChanged: (value) {
-              //         setState(() {
-              //           _showChart = value;
-              //         });
-              //       },
-              //     ),
-              //   ],
-              // ),
-              if (_showChart || !isLandscape)
-                Container(
-                  height: avaliableHeight * (isLandscape ? 0.7 : 0.3),
-                  child: Chart(_recentTransactions),
-                ),
+            if (_showChart || !isLandscape)
+              Container(
+                height: avaliableHeight * (isLandscape ? 0.8 : 0.3),
+                child: Chart(_recentTransactions),
+              ),
             if (!_showChart || !isLandscape)
               Container(
                 height: avaliableHeight * (isLandscape ? 1 : 0.7),
