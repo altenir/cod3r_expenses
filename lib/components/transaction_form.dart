@@ -1,5 +1,8 @@
+import 'package:expenses/components/adaptative_date_picker.dart';
+import 'package:expenses/components/adaptative_text_field.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+
+import 'adaptative_button.dart';
 
 class TransactionForm extends StatefulWidget {
   final void Function(String, double, DateTime) onSubmit;
@@ -27,23 +30,6 @@ class _TransactionFormState extends State<TransactionForm> {
         _selectedDate!); // é passado do classe do widget para o state
   }
 
-  _showDatePicker() {
-    showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime(2019),
-      lastDate: DateTime.now(),
-    ).then((pikedDate) {
-      if (pikedDate == null) {
-        return;
-      }
-      setState(() {
-        _selectedDate = pikedDate;
-      });
-    });
-    print('Executadoi!!!!');
-  }
-
   @override
   Widget build(BuildContext context) {
     // int mqvBottom = MediaQuery.of(context).viewInsets.bottom.round();
@@ -60,60 +46,35 @@ class _TransactionFormState extends State<TransactionForm> {
           ),
           child: Column(
             children: <Widget>[
-              TextField(
+              AdaptativeTextField(
                 controller: _titleController,
                 onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(labelText: 'Título'),
+                label: 'Titulo',
               ),
-              TextField(
+              AdaptativeTextField(
                 controller: _valueController,
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 onSubmitted: (_) => _submitForm(),
-                decoration: InputDecoration(
-                  labelText: 'Valor (R\$)',
-                ),
+                label: 'Valor (R\$)',
               ),
               SizedBox(height: 10),
-              Container(
-                height: 70,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(_selectedDate == null
-                          ? 'Nenhuma data selecionada'
-                          : 'Data Selecionada: ${DateFormat('dd/MM/y').format(_selectedDate!)}'),
-                    ),
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        padding: const EdgeInsets.all(16.0),
-                        primary: Colors.purple,
-                        textStyle: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold),
-                      ),
-                      onPressed: _showDatePicker,
-                      child: const Text('Selecionar data'),
-                    ),
-                  ],
-                ),
-              ),
+              AdaptativeDatePicker(
+                  selectedDate: _selectedDate,
+                  onDateChange: (newDate) {
+                    setState(() {
+                      _selectedDate = newDate;
+                    });
+                  }),
               Row(
-                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      padding: const EdgeInsets.all(16.0),
-                      textStyle: TextStyle(fontSize: 14, color: Colors.white),
-                    ),
-                    onPressed: _submitForm,
-                    child: const Text(
-                      'Nova Transação',
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 14,
-                          fontWeight: FontWeight.bold),
-                    ),
-                  ),
+                  AdaptativeButton(label: 'Nova', onPressed: _submitForm),
+                  // ElevatedButton(
+                  //   style: ElevatedButton.styleFrom(
+                  //     textStyle: const TextStyle(fontSize: 20),
+                  //   ),
+                  //   onPressed: _submitForm,
+                  //   child: const Text('Nova transação'),
+                  // )
                 ],
               )
             ],
