@@ -3,8 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class AdaptativeButton extends StatelessWidget {
-  // const AdaptativeButton({Key? key}) : super(key: key);
-
   final String label;
   final Function onPressed;
 
